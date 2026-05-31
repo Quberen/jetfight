@@ -1,4 +1,3 @@
-import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { AssetRegistry } from './AssetRegistry';
 import { PlaceholderFactory } from './PlaceholderFactory';
@@ -21,7 +20,6 @@ export class AssetLoader {
   async loadCritical(onProgress: (pct: number) => void): Promise<void> {
     const critical = MANIFEST.filter(a => a.critical);
     let loaded = 0;
-
     for (const entry of critical) {
       await this.loadEntry(entry);
       loaded++;
@@ -36,12 +34,39 @@ export class AssetLoader {
     }
   }
 
+  private async fileExists(path: string): Promise<boolean> {
+    try {
+      const res = await Promise.race([
+        fetch(path, { method: 'HEAD' }),
+        new Promise<Response>((_, reject) =>
+          setTimeout(() => reject(new Error('timeout')), 2000)
+        ),
+      ]);
+      return (res as Response).ok;
+    } catch {
+      return false;
+    }
+  }
+
   private async loadEntry(entry: AssetEntry): Promise<void> {
     try {
-      const gltf = await this.loader.loadAsync(entry.path);
+      // Fast HEAD check before committing to a full GLTFLoader load.
+      // GLTFLoader.loadAsync can hang silently on some browsers when the
+      // file returns a non-JSON 404 body, so we gate on existence first.
+      const exists = await this.fileExists(entry.path);
+      if (!exists) {
+        AssetRegistry.set(entry.key, PlaceholderFactory.create(entry.key));
+        return;
+      }
+
+      const gltf = await Promise.race([
+        this.loader.loadAsync(entry.path),
+        new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error('load timeout')), 15000)
+        ),
+      ]);
       AssetRegistry.set(entry.key, gltf.scene);
     } catch {
-      // Use placeholder — this is expected when external assets aren't present
       AssetRegistry.set(entry.key, PlaceholderFactory.create(entry.key));
     }
   }
