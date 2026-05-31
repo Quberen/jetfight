@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { ObjectPool } from '../utils/ObjectPool';
-import { EffectParams } from '../game/Config';
+import { ObjectPool } from '../utils/ObjectPool.js';
+import { EffectParams } from '../game/Config.js';
 
 interface Particle {
   position: THREE.Vector3;

@@ -1,5 +1,5 @@
 // Custom virtual joystick — no external deps, full control over feel
-import { clamp } from '../utils/MathUtils';
+import { clamp } from '../utils/MathUtils.js';
 
 export interface JoystickOutput {
   x: number;  // [-1, 1]

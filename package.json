@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:web": "tsc -p tsconfig.web.json"
   },
   "dependencies": {
     "three": "^0.167.0",

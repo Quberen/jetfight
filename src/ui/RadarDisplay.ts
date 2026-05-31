@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { Enemy } from '../combat/EnemyAI';
+import { Enemy } from '../combat/EnemyAI.js';
 
 export class RadarDisplay {
   private canvas: HTMLCanvasElement;

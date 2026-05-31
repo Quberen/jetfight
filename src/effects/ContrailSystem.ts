@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { AircraftState } from '../flight/AircraftState';
-import { AceParams, EffectParams } from '../game/Config';
+import { AircraftState } from '../flight/AircraftState.js';
+import { AceParams, EffectParams } from '../game/Config.js';
 
 const MAX_POINTS = EffectParams.contrailLengthPoints;
 

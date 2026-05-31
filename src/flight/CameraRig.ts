@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import { AceParams } from '../game/Config';
-import { AircraftState } from './AircraftState';
-import { clamp, clamp01, smoothDampV3 } from '../utils/MathUtils';
+import { AceParams } from '../game/Config.js';
+import { AircraftState } from './AircraftState.js';
+import { clamp, clamp01, smoothDampV3 } from '../utils/MathUtils.js';
 
 const _fwd = new THREE.Vector3();
 const _up = new THREE.Vector3();

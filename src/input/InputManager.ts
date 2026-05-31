@@ -1,9 +1,9 @@
-import { ControlInput, defaultInput } from '../flight/ControlInput';
-import { JoystickController } from './JoystickController';
-import { ThrottleController } from './ThrottleController';
-import { ButtonController } from './ButtonController';
-import { GyroController } from './GyroController';
-import { lerp } from '../utils/MathUtils';
+import { ControlInput, defaultInput } from '../flight/ControlInput.js';
+import { JoystickController } from './JoystickController.js';
+import { ThrottleController } from './ThrottleController.js';
+import { ButtonController } from './ButtonController.js';
+import { GyroController } from './GyroController.js';
+import { lerp } from '../utils/MathUtils.js';
 
 export type ControlMode = 'joystick' | 'gyro' | 'hybrid';
 

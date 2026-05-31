@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { ObjectPool } from '../utils/ObjectPool';
+import { ObjectPool } from '../utils/ObjectPool.js';
 
 interface Spark { pos: THREE.Vector3; vel: THREE.Vector3; life: number; }
 const makeS = (): Spark => ({ pos: new THREE.Vector3(), vel: new THREE.Vector3(), life: 0 });

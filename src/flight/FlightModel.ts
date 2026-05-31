@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import { AceParams } from '../game/Config';
-import { AircraftState } from './AircraftState';
-import { ControlInput } from './ControlInput';
-import { clamp, clamp01, lerp, expoCurve } from '../utils/MathUtils';
+import { AceParams } from '../game/Config.js';
+import { AircraftState } from './AircraftState.js';
+import { ControlInput } from './ControlInput.js';
+import { clamp, clamp01, lerp, expoCurve } from '../utils/MathUtils.js';
 
 // Pre-allocated scratch vectors to avoid GC in hot path
 const _fwd = new THREE.Vector3();

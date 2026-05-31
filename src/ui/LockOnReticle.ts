@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { Enemy } from '../combat/EnemyAI';
+import { Enemy } from '../combat/EnemyAI.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 

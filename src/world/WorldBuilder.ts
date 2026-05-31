@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { SkySystem } from './SkySystem';
-import { TerrainMesh } from './TerrainMesh';
+import { SkySystem } from './SkySystem.js';
+import { TerrainMesh } from './TerrainMesh.js';
 
 export class WorldBuilder {
   readonly sky: SkySystem;

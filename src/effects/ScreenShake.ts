@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import { EffectParams } from '../game/Config';
-import { clamp } from '../utils/MathUtils';
-import { nextNoise } from '../utils/MathUtils';
+import { EffectParams } from '../game/Config.js';
+import { clamp } from '../utils/MathUtils.js';
+import { nextNoise } from '../utils/MathUtils.js';
 
 export class ScreenShake {
   private intensity = 0;

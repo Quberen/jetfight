@@ -1,0 +1,34 @@
+import { AceParams } from '../game/Config.js';
+import { clamp01 } from '../utils/MathUtils.js';
+export class GForceEffect {
+    constructor() {
+        Object.defineProperty(this, "vignetteEl", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "currentIntensity", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 0
+        });
+        this.vignetteEl = document.getElementById('gforce-vignette');
+    }
+    update(gForce, dt) {
+        const target = clamp01((gForce - AceParams.gForceTunnelVisionThreshold) /
+            (AceParams.gForceMax - AceParams.gForceTunnelVisionThreshold));
+        // Smooth transition
+        this.currentIntensity += (target - this.currentIntensity) * Math.min(1, dt * 5);
+        this.vignetteEl.style.opacity = String(this.currentIntensity * 0.9);
+        // Grayscale filter on high G
+        const gray = this.currentIntensity * 0.7;
+        document.body.style.filter = gray > 0.05 ? `grayscale(${gray})` : '';
+    }
+    reset() {
+        this.currentIntensity = 0;
+        this.vignetteEl.style.opacity = '0';
+        document.body.style.filter = '';
+    }
+}

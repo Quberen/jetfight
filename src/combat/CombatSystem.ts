@@ -1,13 +1,13 @@
 import * as THREE from 'three';
-import { CombatParams } from '../game/Config';
-import { AircraftState } from '../flight/AircraftState';
-import { bus } from '../game/EventBus';
-import { EnemyAI } from './EnemyAI';
-import { LockOnSystem } from './LockOnSystem';
-import { MissileController } from './MissileController';
-import { GunSystem } from './GunSystem';
-import { AssetRegistry } from '../assets/AssetRegistry';
-import { PlaceholderFactory } from '../assets/PlaceholderFactory';
+import { CombatParams } from '../game/Config.js';
+import { AircraftState } from '../flight/AircraftState.js';
+import { bus } from '../game/EventBus.js';
+import { EnemyAI } from './EnemyAI.js';
+import { LockOnSystem } from './LockOnSystem.js';
+import { MissileController } from './MissileController.js';
+import { GunSystem } from './GunSystem.js';
+import { AssetRegistry } from '../assets/AssetRegistry.js';
+import { PlaceholderFactory } from '../assets/PlaceholderFactory.js';
 
 export class CombatSystem {
   readonly enemyAI: EnemyAI;

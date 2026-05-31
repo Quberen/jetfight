@@ -1,5 +1,5 @@
-import { AceParams } from '../game/Config';
-import { clamp01 } from '../utils/MathUtils';
+import { AceParams } from '../game/Config.js';
+import { clamp01 } from '../utils/MathUtils.js';
 
 export class GForceEffect {
   private vignetteEl: HTMLElement;

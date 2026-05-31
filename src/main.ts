@@ -1,5 +1,5 @@
-import { AssetLoader } from './assets/AssetLoader';
-import { Game } from './game/Game';
+import { AssetLoader } from './assets/AssetLoader.js';
+import { Game } from './game/Game.js';
 
 // Surface any uncaught errors to the loading screen so the user
 // doesn't see a silent freeze.

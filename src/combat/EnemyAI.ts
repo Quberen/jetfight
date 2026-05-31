@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { CombatParams } from '../game/Config';
-import { bus } from '../game/EventBus';
+import { CombatParams } from '../game/Config.js';
+import { bus } from '../game/EventBus.js';
 
 export interface Enemy {
   id: number;

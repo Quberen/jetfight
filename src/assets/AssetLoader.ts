@@ -1,6 +1,9 @@
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { AssetRegistry } from './AssetRegistry';
-import { PlaceholderFactory } from './PlaceholderFactory';
+import { AssetRegistry } from './AssetRegistry.js';
+import { PlaceholderFactory } from './PlaceholderFactory.js';
+
+// Set to true and provide real GLB files under public/assets/models/ to load external models.
+const LOAD_EXTERNAL_MODELS = false;
 
 interface AssetEntry {
   key: string;
@@ -34,31 +37,12 @@ export class AssetLoader {
     }
   }
 
-  private async fileExists(path: string): Promise<boolean> {
-    try {
-      const res = await Promise.race([
-        fetch(path, { method: 'HEAD' }),
-        new Promise<Response>((_, reject) =>
-          setTimeout(() => reject(new Error('timeout')), 2000)
-        ),
-      ]);
-      return (res as Response).ok;
-    } catch {
-      return false;
-    }
-  }
-
   private async loadEntry(entry: AssetEntry): Promise<void> {
+    if (!LOAD_EXTERNAL_MODELS) {
+      AssetRegistry.set(entry.key, PlaceholderFactory.create(entry.key));
+      return;
+    }
     try {
-      // Fast HEAD check before committing to a full GLTFLoader load.
-      // GLTFLoader.loadAsync can hang silently on some browsers when the
-      // file returns a non-JSON 404 body, so we gate on existence first.
-      const exists = await this.fileExists(entry.path);
-      if (!exists) {
-        AssetRegistry.set(entry.key, PlaceholderFactory.create(entry.key));
-        return;
-      }
-
       const gltf = await Promise.race([
         this.loader.loadAsync(entry.path),
         new Promise<never>((_, reject) =>

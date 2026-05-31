@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import { CombatParams } from '../game/Config';
-import { Enemy } from './EnemyAI';
-import { bus } from '../game/EventBus';
-import { clamp01 } from '../utils/MathUtils';
+import { CombatParams } from '../game/Config.js';
+import { Enemy } from './EnemyAI.js';
+import { bus } from '../game/EventBus.js';
+import { clamp01 } from '../utils/MathUtils.js';
 
 const _toEnemy = new THREE.Vector3();
 

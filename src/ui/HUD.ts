@@ -1,15 +1,15 @@
 import * as THREE from 'three';
-import { AircraftState } from '../flight/AircraftState';
-import { CombatSystem } from '../combat/CombatSystem';
-import { SpeedIndicator } from './SpeedIndicator';
-import { AltitudeIndicator } from './AltitudeIndicator';
-import { HeadingCompass } from './HeadingCompass';
-import { ArtificialHorizon } from './ArtificialHorizon';
-import { RadarDisplay } from './RadarDisplay';
-import { LockOnReticle } from './LockOnReticle';
-import { AlertBanner } from './AlertBanner';
-import { bus } from '../game/EventBus';
-import { clamp01 } from '../utils/MathUtils';
+import { AircraftState } from '../flight/AircraftState.js';
+import { CombatSystem } from '../combat/CombatSystem.js';
+import { SpeedIndicator } from './SpeedIndicator.js';
+import { AltitudeIndicator } from './AltitudeIndicator.js';
+import { HeadingCompass } from './HeadingCompass.js';
+import { ArtificialHorizon } from './ArtificialHorizon.js';
+import { RadarDisplay } from './RadarDisplay.js';
+import { LockOnReticle } from './LockOnReticle.js';
+import { AlertBanner } from './AlertBanner.js';
+import { bus } from '../game/EventBus.js';
+import { clamp01 } from '../utils/MathUtils.js';
 
 const _euler = new THREE.Euler();
 

@@ -1,4 +1,4 @@
-import { clamp01 } from '../utils/MathUtils';
+import { clamp01 } from '../utils/MathUtils.js';
 
 export class DamageFlash {
   private flashEl: HTMLElement;

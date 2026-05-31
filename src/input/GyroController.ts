@@ -1,4 +1,4 @@
-import { clamp } from '../utils/MathUtils';
+import { clamp } from '../utils/MathUtils.js';
 
 export interface GyroOutput {
   pitch: number;  // [-1, 1]
