@@ -24,6 +24,9 @@ export const AceParams = {
   coordinatedTurnStrength: 0.88,
   bankToTurnRate: 1.25,
 
+  // ── Auto-Level (wing leveling when no roll input) ──
+  autoLevelStrength: 0.8,  // rad/s per radian of bank; T=1.25s at 90° bank
+
   // ── Lift / Gravity ──
   liftCoefficient: 0.14,
   gravityStrength: 9.8,

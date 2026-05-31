@@ -10,8 +10,8 @@ export class SkySystem {
 
     const mat = new THREE.ShaderMaterial({
       uniforms: {
-        topColor:    { value: new THREE.Color(0x0a1a3a) },
-        bottomColor: { value: new THREE.Color(0x2a4a6a) },
+        topColor:    { value: new THREE.Color(0x1a3d7f) },
+        bottomColor: { value: new THREE.Color(0x5080c0) },
         offset:      { value: 400 },
         exponent:    { value: 0.4 },
       },

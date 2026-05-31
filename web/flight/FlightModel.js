@@ -48,11 +48,15 @@ export class FlightModel {
         // ── Control effectiveness (scales with airspeed) ──
         const effectiveness = clamp((state.airspeed - AceParams.stallSpeed) / (AceParams.cruiseSpeed - AceParams.stallSpeed), AceParams.stallControlFactor, 1.25);
         // ── Target angular rates ──
-        const targetPitch = pitchIn * AceParams.pitchRate * effectiveness;
-        const targetRoll = rollIn * AceParams.rollRate * effectiveness;
-        // ── Coordinated turn: bank angle drives yaw automatically ──
+        // Bank angle needed for both auto-level and coordinated turn
         _euler.setFromQuaternion(state.quaternion, 'YXZ');
         const bankAngle = _euler.z;
+        const targetPitch = pitchIn * AceParams.pitchRate * effectiveness;
+        // Auto wing-level: restore bank toward zero when not actively rolling
+        const autoLevel = -bankAngle * AceParams.autoLevelStrength
+            * (1.0 - Math.min(Math.abs(rollIn), 1.0));
+        const targetRoll = rollIn * AceParams.rollRate * effectiveness + autoLevel;
+        // ── Coordinated turn: bank angle drives yaw automatically ──
         const speedRatio = state.airspeed / AceParams.cruiseSpeed;
         const targetYaw = -Math.sin(bankAngle) * AceParams.bankToTurnRate * speedRatio * AceParams.coordinatedTurnStrength;
         // ── Smooth angular rates (inertia) ──

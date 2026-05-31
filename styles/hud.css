@@ -85,6 +85,39 @@
   background: var(--hud-bg);
 }
 
+/* ── Top-left group: pause button stacked above radar ── */
+#top-left-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  pointer-events: auto;
+}
+
+#pause-btn-container {
+  display: flex;
+}
+
+#btn-pause {
+  width: 36px;
+  height: 36px;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(0,255,136,0.25);
+  color: rgba(0,255,136,0.5);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  pointer-events: auto;
+}
+
+#btn-pause:active {
+  background: rgba(0,255,136,0.1);
+  border-color: rgba(0,255,136,0.6);
+}
+
 /* ── Radar ── */
 #radar-container {
   background: rgba(0,8,16,0.8);
@@ -335,7 +368,7 @@
 /* ── Bottom HUD ── */
 #hud-bottom {
   position: absolute;
-  bottom: max(calc(var(--safe-bottom) + 180px), 200px);
+  bottom: max(calc(var(--safe-bottom) + 215px), 230px);
   left: 0;
   right: 0;
   display: flex;
