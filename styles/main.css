@@ -1,0 +1,225 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+#game-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+  touch-action: none;
+}
+
+/* Loading Screen */
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease;
+}
+
+#loading-screen.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loading-content {
+  text-align: center;
+  color: #00ff88;
+}
+
+.loading-title {
+  font-size: 3rem;
+  letter-spacing: 0.5em;
+  margin-bottom: 0.4rem;
+  text-shadow: 0 0 20px rgba(0,255,136,0.8), 0 0 40px rgba(0,255,136,0.4);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.loading-subtitle {
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  color: rgba(0,255,136,0.6);
+  margin-bottom: 2.5rem;
+}
+
+.loading-bar-container {
+  width: 280px;
+  height: 3px;
+  background: rgba(0,255,136,0.15);
+  border: 1px solid rgba(0,255,136,0.3);
+  margin: 0 auto 1rem;
+}
+
+.loading-bar {
+  height: 100%;
+  background: #00ff88;
+  width: 0%;
+  transition: width 0.3s ease;
+  box-shadow: 0 0 8px #00ff88;
+}
+
+.loading-text {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: rgba(0,255,136,0.5);
+}
+
+@keyframes pulse-glow {
+  0%, 100% { text-shadow: 0 0 20px rgba(0,255,136,0.8), 0 0 40px rgba(0,255,136,0.4); }
+  50% { text-shadow: 0 0 30px rgba(0,255,136,1), 0 0 60px rgba(0,255,136,0.6); }
+}
+
+/* Menu Panels */
+.menu-panel {
+  background: rgba(0,10,20,0.92);
+  border: 1px solid rgba(0,255,136,0.3);
+  padding: 2rem;
+  min-width: 280px;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(0,255,136,0.15), inset 0 0 30px rgba(0,0,0,0.5);
+}
+
+.menu-title {
+  font-size: 1.4rem;
+  letter-spacing: 0.4em;
+  color: #00ff88;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 15px rgba(0,255,136,0.7);
+}
+
+.menu-title.red {
+  color: #ff3333;
+  text-shadow: 0 0 15px rgba(255,51,51,0.7);
+}
+
+.menu-btn {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+  background: transparent;
+  border: 1px solid rgba(0,255,136,0.4);
+  color: #00ff88;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.menu-btn:active, .menu-btn:hover {
+  background: rgba(0,255,136,0.12);
+  border-color: #00ff88;
+  box-shadow: 0 0 12px rgba(0,255,136,0.3);
+}
+
+.menu-btn.danger {
+  border-color: rgba(255,51,51,0.4);
+  color: #ff3333;
+}
+
+.menu-btn.danger:active {
+  background: rgba(255,51,51,0.12);
+  border-color: #ff3333;
+}
+
+#pause-menu, #settings-panel, #game-over {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+}
+
+#pause-menu.hidden, #settings-panel.hidden, #game-over.hidden {
+  display: none;
+}
+
+/* Settings */
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(0,255,136,0.1);
+  color: rgba(0,255,136,0.8);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+}
+
+.btn-group {
+  display: flex;
+  gap: 4px;
+}
+
+.toggle-btn {
+  padding: 0.3rem 0.6rem;
+  background: transparent;
+  border: 1px solid rgba(0,255,136,0.3);
+  color: rgba(0,255,136,0.5);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.toggle-btn.active {
+  background: rgba(0,255,136,0.15);
+  border-color: #00ff88;
+  color: #00ff88;
+  box-shadow: 0 0 8px rgba(0,255,136,0.3);
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  width: 120px;
+  height: 3px;
+  background: rgba(0,255,136,0.2);
+  outline: none;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  background: #00ff88;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(0,255,136,0.6);
+}
+
+.score-display {
+  color: rgba(0,255,136,0.8);
+  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  margin-bottom: 0.5rem;
+}
+
+.hidden {
+  display: none !important;
+}

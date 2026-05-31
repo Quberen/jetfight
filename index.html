@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>JetFight</title>
+  <link rel="stylesheet" href="/styles/main.css" />
+  <link rel="stylesheet" href="/styles/hud.css" />
+  <link rel="stylesheet" href="/styles/controls.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <canvas id="game-canvas"></canvas>
+
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div class="loading-content">
+      <div class="loading-title">JETFIGHT</div>
+      <div class="loading-subtitle">TACTICAL AIR SUPERIORITY</div>
+      <div class="loading-bar-container">
+        <div class="loading-bar" id="loading-bar"></div>
+      </div>
+      <div class="loading-text" id="loading-text">INITIALIZING...</div>
+    </div>
+  </div>
+
+  <!-- HUD Layer -->
+  <div id="hud-layer">
+    <!-- Top Bar -->
+    <div id="hud-top">
+      <div id="radar-container"></div>
+      <div id="heading-compass">
+        <div id="compass-strip"></div>
+        <div class="compass-cursor"></div>
+      </div>
+      <div id="missile-count"></div>
+    </div>
+
+    <!-- Center Elements -->
+    <div id="hud-center">
+      <div id="artificial-horizon">
+        <svg id="horizon-svg" viewBox="-60 -60 120 120" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <clipPath id="horizon-clip">
+              <circle cx="0" cy="0" r="55"/>
+            </clipPath>
+          </defs>
+          <g id="horizon-group" clip-path="url(#horizon-clip)">
+            <rect x="-100" y="-100" width="200" height="100" fill="#1a3a5c" opacity="0.85"/>
+            <rect x="-100" y="0" width="200" height="100" fill="#3d2b1f" opacity="0.85"/>
+            <line x1="-50" y1="0" x2="50" y2="0" stroke="#00ff88" stroke-width="0.5" opacity="0.6"/>
+            <g id="pitch-ladder"></g>
+          </g>
+          <circle cx="0" cy="0" r="55" fill="none" stroke="#00ff88" stroke-width="0.8" opacity="0.5"/>
+          <!-- Aircraft symbol -->
+          <line x1="-20" y1="0" x2="-6" y2="0" stroke="#00ff88" stroke-width="2"/>
+          <line x1="6" y1="0" x2="20" y2="0" stroke="#00ff88" stroke-width="2"/>
+          <circle cx="0" cy="0" r="2" fill="#00ff88"/>
+          <line x1="0" y1="-8" x2="0" y2="-4" stroke="#00ff88" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div id="lock-on-container"></div>
+      <div id="crosshair">
+        <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="30" cy="30" r="12" fill="none" stroke="#00ff88" stroke-width="1" opacity="0.7"/>
+          <line x1="16" y1="30" x2="22" y2="30" stroke="#00ff88" stroke-width="1.5"/>
+          <line x1="38" y1="30" x2="44" y2="30" stroke="#00ff88" stroke-width="1.5"/>
+          <line x1="30" y1="16" x2="30" y2="22" stroke="#00ff88" stroke-width="1.5"/>
+          <line x1="30" y1="38" x2="30" y2="44" stroke="#00ff88" stroke-width="1.5"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Side Indicators -->
+    <div id="speed-tape" class="side-tape left-tape">
+      <div class="tape-label">SPD</div>
+      <div class="tape-window">
+        <div class="tape-strip" id="speed-strip"></div>
+        <div class="tape-cursor"></div>
+        <div class="tape-value" id="speed-value">220</div>
+      </div>
+      <div class="tape-unit">m/s</div>
+    </div>
+
+    <div id="altitude-tape" class="side-tape right-tape">
+      <div class="tape-label">ALT</div>
+      <div class="tape-window">
+        <div class="tape-strip" id="altitude-strip"></div>
+        <div class="tape-cursor"></div>
+        <div class="tape-value" id="altitude-value">1000</div>
+      </div>
+      <div class="tape-unit">m</div>
+    </div>
+
+    <!-- Alert Banner -->
+    <div id="alert-banner"></div>
+
+    <!-- G-Force indicator -->
+    <div id="gforce-display">
+      <span id="gforce-value">1.0</span><span class="gforce-unit">G</span>
+    </div>
+
+    <!-- Damage overlay -->
+    <div id="damage-flash"></div>
+    <div id="damage-vignette"></div>
+    <div id="gforce-vignette"></div>
+
+    <!-- Bottom HUD -->
+    <div id="hud-bottom">
+      <div id="target-info" class="hidden">
+        <div class="target-name" id="target-name">ENEMY</div>
+        <div class="target-distance" id="target-distance">--km</div>
+        <div class="target-health-bar"><div id="target-health-fill"></div></div>
+      </div>
+      <div id="health-bar-container">
+        <div class="hud-label">ARMOR</div>
+        <div id="health-bar"><div id="health-fill"></div></div>
+      </div>
+      <div id="ammo-display">
+        <div id="missile-pips"></div>
+        <div id="gun-ammo">GUN <span id="gun-count">500</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Touch Controls Layer -->
+  <div id="controls-layer">
+    <!-- Left joystick zone -->
+    <div id="joystick-zone">
+      <div id="joystick-base">
+        <div id="joystick-knob"></div>
+      </div>
+      <div class="control-label">PITCH / ROLL</div>
+    </div>
+
+    <!-- Throttle -->
+    <div id="throttle-zone">
+      <div class="control-label">THR</div>
+      <div id="throttle-track">
+        <div id="throttle-fill"></div>
+        <div id="throttle-handle"></div>
+        <div class="throttle-tick t100"></div>
+        <div class="throttle-tick t75"></div>
+        <div class="throttle-tick t50"></div>
+        <div class="throttle-tick t25"></div>
+        <div class="throttle-tick t0"></div>
+        <div class="throttle-label l100">AB</div>
+        <div class="throttle-label l75">75</div>
+        <div class="throttle-label l50">50</div>
+        <div class="throttle-label l25">25</div>
+        <div class="throttle-label l0">MIN</div>
+      </div>
+      <div class="throttle-pct" id="throttle-pct">60%</div>
+    </div>
+
+    <!-- Right action buttons -->
+    <div id="action-buttons">
+      <button id="btn-missile" class="action-btn missile-btn">
+        <svg viewBox="0 0 40 40"><path d="M32 20L8 12v16l24-8z" fill="currentColor"/><rect x="5" y="18" width="6" height="4" fill="currentColor" rx="1"/></svg>
+        <span>MSL</span>
+      </button>
+      <button id="btn-gun" class="action-btn gun-btn">
+        <svg viewBox="0 0 40 40"><rect x="8" y="17" width="24" height="6" fill="currentColor" rx="2"/><rect x="28" y="15" width="4" height="10" fill="currentColor" rx="1"/></svg>
+        <span>GUN</span>
+      </button>
+    </div>
+
+    <!-- Control mode toggle -->
+    <div id="control-mode-toggle">
+      <button id="btn-gyro-toggle" class="mode-btn" title="陀螺仪控制">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>
+          <path d="M4.9 4.9l2.1 2.1M16.9 16.9l2.1 2.1M4.9 19.1l2.1-2.1M16.9 7.1l2.1-2.1"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Pause button -->
+    <div id="pause-btn-container">
+      <button id="btn-pause">⏸</button>
+    </div>
+  </div>
+
+  <!-- Pause Menu -->
+  <div id="pause-menu" class="hidden">
+    <div class="menu-panel">
+      <div class="menu-title">PAUSED</div>
+      <button class="menu-btn" id="btn-resume">RESUME</button>
+      <button class="menu-btn" id="btn-settings">SETTINGS</button>
+      <button class="menu-btn danger" id="btn-quit">QUIT MISSION</button>
+    </div>
+  </div>
+
+  <!-- Settings Panel -->
+  <div id="settings-panel" class="hidden">
+    <div class="menu-panel">
+      <div class="menu-title">SETTINGS</div>
+      <div class="setting-row">
+        <label>CONTROL MODE</label>
+        <div class="btn-group">
+          <button class="toggle-btn active" id="mode-joystick">JOYSTICK</button>
+          <button class="toggle-btn" id="mode-gyro">GYRO</button>
+          <button class="toggle-btn" id="mode-hybrid">HYBRID</button>
+        </div>
+      </div>
+      <div class="setting-row">
+        <label>SENSITIVITY</label>
+        <input type="range" id="sensitivity-slider" min="20" max="200" value="100" />
+        <span id="sensitivity-value">100%</span>
+      </div>
+      <div class="setting-row">
+        <label>INVERT PITCH</label>
+        <button class="toggle-btn" id="toggle-invert">OFF</button>
+      </div>
+      <div class="setting-row">
+        <label>GRAPHICS</label>
+        <div class="btn-group">
+          <button class="toggle-btn active" id="quality-medium">MEDIUM</button>
+          <button class="toggle-btn" id="quality-high">HIGH</button>
+        </div>
+      </div>
+      <button class="menu-btn" id="btn-settings-back">BACK</button>
+    </div>
+  </div>
+
+  <!-- Game Over Screen -->
+  <div id="game-over" class="hidden">
+    <div class="menu-panel">
+      <div class="menu-title red">MISSION FAILED</div>
+      <div class="score-display" id="final-score">SCORE: 0</div>
+      <div class="score-display" id="kills-display">KILLS: 0</div>
+      <button class="menu-btn" id="btn-retry">RETRY</button>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
